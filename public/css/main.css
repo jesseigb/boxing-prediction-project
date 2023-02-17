@@ -1,0 +1,229 @@
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    background: #0c0c0c;
+    font-family: 'Butler';
+    color: white;
+    margin: 0;
+}
+
+.topLeft {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 30px;
+}
+
+.topLeftButton {
+    position: absolute;
+    top: 60;
+    left: 0;
+    margin: 30px;
+}
+
+#openResultSection {
+    position: absolute;
+    top: 10;
+    right: 0;
+    margin: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Butler';
+}
+
+#openResultSection:hover {
+    text-decoration: underline;
+}
+
+.mainFormWrapper {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.formsWrapper {
+    width: 450px;
+    height: 550px;
+    position: relative;
+    border: 1px solid #323232;
+    text-align: center;
+}
+
+.formsWrapper input {
+    width: 50%;
+}
+
+.bottomButtonWrapper {
+    height: 65px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.bottomButtonWrapper div {
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background: #0c0c0c;
+}
+
+.bottomButtonWrapper div:hover {
+    background: white;
+    color: black;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+input, select {
+    background: none;
+    border: none;
+    border-bottom: 2px solid white;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-family: 'Butler';
+    font-size: 15px;
+    border-radius: 2px;
+}
+
+select option {
+    background: white;
+    color: black;
+}
+
+input:focus {
+    outline: none;
+}
+
+input[type=submit] {
+    border: 2px solid white;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+input[type=submit]:hover {
+    background: white;
+    color: black;
+}
+
+#resultSection {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: #191919;
+    width: 40%;
+    height: 100vh;
+    box-shadow: 5px 0px 80px black;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+#resultSection #header {
+    width: 100%; 
+    height: 50px; 
+    border-bottom: 1px solid #323232;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#resultSection #header i {
+    color: white;
+    cursor: pointer;
+}
+
+.resultItemDiv {
+    width: 99.7%;
+    height: auto;
+    border: 1px solid #323232;
+    margin-bottom: 10px;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    cursor: pointer;
+    z-index: 3;
+    transition: 0.2s;
+}
+
+.resultItemDiv:hover {
+    background: #0c0c0c;
+}
+
+.resultItemDiv p {
+    color: white;
+}
+
+.chartWrapper {
+    position: relative; 
+    display: block;
+    width: 60vw;
+    margin-bottom: 50px;
+}
+
+.chartSection {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    border-top: 1px solid #323232;
+    position: relative;
+}
+
+
+#outcomeText {
+    position: absolute;
+    top: 20px;
+}
+
+#outcomeParagraph {
+    position: absolute;
+    top: 70px;
+    font-size: 18px;
+}
+
+
+.detailsSwitchWrapper {
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-content: center;
+    position: absolute;
+    bottom: 80px;
+}
+
+.detailsSwitchWrapper div {
+    background: #0c0c0c;
+    color: white;
+    height: 60px;
+    width: 60%;
+    border: 2px solid white;
+    border-radius: 2px;
+    cursor: pointer;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    transition: 0.3s;
+}
+
+.detailsSwitchWrapper div:hover {
+    background: white;
+    color: black;
+}

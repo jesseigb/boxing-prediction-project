@@ -1,0 +1,177 @@
+<html>
+    <head>
+        <title>Boxing Prediction Project</title>
+        <link rel="stylesheet" href="css/main.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+        <script src="https://kit.fontawesome.com/d1a2782d14.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+<body>
+    <div class="mainFormWrapper">
+        <h1 class="topLeft">Boxing Prediction Project <span style="font-size: 13;">Powered By <a style="text-decoration: underline; color: white;" href="https://boxrec.com/en">Boxrec.com</a></span></h1>
+        <p id="openResultSection"><i class="fa-solid fa-caret-left"></i> Open Result Section</p>
+
+        <a style="text-decoration: none;" class="topLeftButton" href="#chartsSection">
+            <input style="display: none;" id="submitButton" value="Get Result" type="submit">
+        </a>
+        <div class="formsWrapper">
+            <div style="display: block;" id="customiseBoxerForm">
+                <h1>Customise Your Boxer</h1>
+                <input id="nameInput" type="text" placeholder="Name" value="Jesse Igbokwe" required>
+                <input id="heightInput" type="number" placeholder="Height" value="178" required>
+                <input id="reachInput" type="number" placeholder="Reach" value="180" required>
+                <select id="stanceInput">
+                    <option value="orthodox">orthodox</option>
+                    <option value="southpaw">southpaw</option>
+                </select>
+            </div>
+            <div style="display: none;" id="searchBoxerForm">
+                <div>
+                    <h1 id="text">Select Your Opponent</h1>
+                    <input id="firstName" placeholder="First Name" value="Rafal" required>
+                    <input id="lastName" placeholder="Last Name" value="Wolczecki" required>
+                    <input id="searchOpponent" type="submit" value="Search Opponent">
+                    <p id="searchErrorMessage" style="color: rgb(172, 8, 8); display: none;">Please fill all the fields!</p>
+                </div>
+            </div>
+
+            <div class="bottomButtonWrapper">
+                <div id="customiseFormButton">Your Boxer</div>
+                <div id="searchFormButton">Opponent Boxer</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;" id="resultSectionWrapper">
+        <div id="resultSection">
+            <div id="header"><i id="closeIcon" class="fa-solid fa-x"></i></div>
+            <div class="resultItemDiv">
+                <p>Nothing To Show :/</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;" id="chartsSection" class="chartSection">
+        <h1 id="outcomeText">You Got 10% Of Winning</h1>
+        <p id="outcomeParagraph">Below you can see more details about the opponent's losses</p>
+        <div class="chartWrapper">
+            <canvas id="chart"></canvas>
+        </div>
+        <div class="detailsSwitchWrapper">
+            <div id="heightSwitchButton">Height Chart</div>
+            <div id="reachSwitchButton">Reach Chart</div>
+            <div id="stanceSwitchButton">Stance Chart</div>
+        </div>
+    </div>
+
+    <script type='module' src="js/script.js"></script>
+
+    <script type="module">
+        import {probabilityCalculator,opponentObject, userBoxer,} from "/js/script.js";
+    
+        /**
+         * Toggle visibility for graphs section
+         */
+        let graphsSectionVisibility = () => {
+            let section = document.getElementById('chartsSection');
+
+            if(section.style.display == 'grid') {
+                section.style.display = 'none';
+            }
+            else {
+                section.style.display = 'grid';
+            }
+        }
+        
+        //Creates charts data 
+        let createChart = () => {
+
+            let chartClass = new probabilityCalculator(opponentObject, userBoxer);
+            let chartArray = [];
+            let heightArray = [[],[]];
+            let reachArray = [[],[]];
+            let stanceArray = [[],[]];
+            let percentage = chartClass.ratioCalculator();
+
+            chartClass.chartRatios()[0].forEach(element => {
+                heightArray[0].push(element.height);
+                heightArray[1].push(element.loss);
+            });
+
+            chartClass.chartRatios()[1].forEach(element => {
+                reachArray[0].push(element.reach);
+                reachArray[1].push(element.loss);
+            });
+
+            chartClass.chartRatios()[2].forEach(element => {
+                stanceArray[0].push(element.stance);
+                stanceArray[1].push(element.loss);
+            });
+
+            chartArray.push(heightArray, reachArray, stanceArray);
+            document.getElementById('outcomeText').innerHTML = 'You Got ' + percentage.percentage + '% Chance Of Winning';
+            return chartArray;
+        }
+        
+        let dataChart; 
+        let chart = document.getElementById('chart').getContext('2d');
+
+        document.getElementById('submitButton').onclick = () => {
+
+            createChart();
+            graphsSectionVisibility();
+
+            // Creates and visualises charts
+            dataChart = new Chart(chart, {
+            type: 'bar', // Loss & Weight
+            data: {
+                labels: createChart()[0][0],
+                datasets: [{
+                    label: 'Heights In CM & Losses',
+                    data: createChart()[0][1],
+                    fill: true,
+                    backgroundColor: [
+                        '#ffffff',
+                    ],
+                }],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 20,
+                                family: 'Butler',
+                            }
+                        }
+                    }
+                }
+            },
+        });
+            
+            };
+
+        // Change all the data value and update
+        let updateChart = (detailsArray, lossesArray, label) => {
+            dataChart.data.labels = detailsArray;
+            dataChart.data.datasets.forEach((dataset) => {
+                dataset.data = lossesArray;
+                dataset.label = label;
+            });
+
+            dataChart.update();
+        }
+
+
+        document.getElementById('heightSwitchButton')
+            .addEventListener('click', () => updateChart(createChart()[0][0],createChart()[0][1], 'Heights In CM & Losses'));
+        document.getElementById('reachSwitchButton')
+            .addEventListener('click', () => updateChart(createChart()[1][0],createChart()[1][1], 'Reach In CM & Losses'));
+        document.getElementById('stanceSwitchButton')
+            .addEventListener('click', () => updateChart(createChart()[2][0],createChart()[2][1], 'Stance & Losses'));
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "boxrec-scraping",
+  "version": "1.0.0",
+  "description": "Scraping Boxrec webpages for boxer information",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon api.js"
+  },
+  "keywords": [
+    "scraping",
+    "boxrec"
+  ],
+  "author": "Jesse Obioma Igbokwe",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "chart.js": "^3.7.1",
+    "cheerio": "^1.0.0-rc.10",
+    "dompurify": "^2.3.6",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.7",
+    "express": "^4.17.3",
+    "node-input-validator": "^4.5.0",
+    "nodemon": "^2.0.15",
+    "puppeteer": "^13.3.2",
+    "puppeteer-extra-plugin-block-resources": "^2.4.2"
+  }
+}
